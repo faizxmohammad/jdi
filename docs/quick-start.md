@@ -6,15 +6,15 @@ Canonical tool names: `docs/mcp-tool-contract.md`.
 
 ## Prerequisites
 
-- Node.js **22.14+** and npm (for local run)
+- Node.js **24+** and npm (for local run; FTS5 via `node:sqlite`)
 - Or Docker Engine + Docker Compose
 - Optional: Tailscale for private remote MCP access
 
 ## 1. Clone and configure
 
 ```bash
-git clone <repository-url>
-cd just-do-it   # or your clone directory name (e.g. build-my-product-mcp)
+git clone https://github.com/faizxmohammad/jdi.git
+cd jdi
 cp .env.example .env
 openssl rand -hex 32   # paste into JUST_DO_IT_TOKEN
 ```

@@ -45,4 +45,4 @@ Exact input schemas live in `src/mcp/server.ts` (Zod). Prefer reading that file 
 
 ## Clone directory
 
-Examples may say `just-do-it` or `build-my-product-mcp`. Both refer to this repository root. Prefer `just-do-it` in public docs once the remote name is finalized.
+Public repository: https://github.com/faizxmohammad/jdi (clone directory often `jdi`).

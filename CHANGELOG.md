@@ -14,8 +14,14 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Examples: `examples/orgs.json`, `examples/api-tokens-team.json`
 - Server loads `.env` from the project root automatically
 
+### Fixed
+
+- CI / memory: require Node **>=24** so `node:sqlite` includes FTS5 (Node 22.14 failed with `no such module: fts5`)
+- Test harness waits for HTTP server `listening` before health checks; `closeServer` tolerates unbound servers
+
 ### Notes
 
+- Public repo: https://github.com/faizxmohammad/jdi
 - Public mode / OIDC still refused at startup
 
 ## [0.1.0] — 2026-10-19

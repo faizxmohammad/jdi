@@ -4,7 +4,7 @@ Thanks for helping improve the skills catalog and MCP server.
 
 ## Development setup
 
-1. Use Node.js 22.14+ (see `package.json` `engines`).
+1. Use Node.js 24+ (see `package.json` `engines` — required for `node:sqlite` FTS5).
 2. Copy `.env.example` to `.env`. Set `JUST_DO_IT_TOKEN` to a random secret of at least 32 characters (`openssl rand -hex 32`) and set `JUST_DO_IT_OWNER_ID` to your solo owner id.
 3. Install and verify:
 

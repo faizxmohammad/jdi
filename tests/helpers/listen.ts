@@ -19,7 +19,9 @@ export const listenLoopback = async (
   return { server, baseUrl: `http://127.0.0.1:${address.port}` }
 }
 
-export const closeServer = (server: Server): Promise<void> =>
-  new Promise((resolve, reject) => {
+export const closeServer = (server: Server | undefined): Promise<void> => {
+  if (!server) return Promise.resolve()
+  return new Promise((resolve, reject) => {
     server.close((error) => (error ? reject(error) : resolve()))
   })
+}

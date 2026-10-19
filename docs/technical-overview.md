@@ -279,7 +279,7 @@ JUST_DO_IT_DEPLOYMENT_MODE=local         # or private
 
 ```bash
 git clone <repo-url>
-cd build-my-product-mcp   # or your clone name
+cd jdi   # clone of https://github.com/faizxmohammad/jdi
 cp .env.example .env
 # set JUST_DO_IT_TOKEN + JUST_DO_IT_OWNER_ID
 npm ci

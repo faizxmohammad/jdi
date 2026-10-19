@@ -4,7 +4,7 @@
   "private": false,
   "description": "Just Do It — self-hosted, Git-backed skills catalog and MCP server for AI coding clients",
   "type": "module",
-  "engines": { "node": ">=22.14.0" },
+  "engines": { "node": ">=24.0.0" },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p tsconfig.json",

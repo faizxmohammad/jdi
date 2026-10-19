@@ -105,7 +105,18 @@ export class MemoryStore {
     }
     this.db = new DatabaseSync(options.dbPath)
     this.db.exec("PRAGMA foreign_keys = ON;")
-    this.db.exec(SCHEMA)
+    try {
+      this.db.exec(SCHEMA)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      if (/no such module:\s*fts5/i.test(message)) {
+        throw new Error(
+          "node:sqlite in this Node build has no FTS5 (needed for project memory). Use Node.js >=24.0.0 (or >=22.16.0 on builds that ship FTS5). See docs/decisions/ADR-003-sqlite-memory.md.",
+          { cause: error },
+        )
+      }
+      throw error
+    }
   }
 
   close(): void {

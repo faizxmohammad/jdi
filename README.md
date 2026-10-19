@@ -18,14 +18,14 @@ Skills live as folders under `skills/<name>/SKILL.md`. You can also sync approve
 
 ## Requirements
 
-- Node.js **22.14+** and npm  
+- Node.js **24+** and npm (`node:sqlite` FTS5 for project memory)  
 - Optional: Docker + Docker Compose  
 
 ## Install
 
 ```bash
-git clone <your-repo-url>
-cd build-my-product-mcp
+git clone https://github.com/faizxmohammad/jdi.git
+cd jdi
 cp .env.example .env
 npm ci
 ```

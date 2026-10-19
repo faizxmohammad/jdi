@@ -49,7 +49,8 @@ Follow `docs/client-compatibility.md` on clean machines. Keep matrix **Unverifie
 
 ### 5. Public repository / tag (human)
 
-Replace `example.invalid` `sourceUrl`, set real clone URL in README/quick-start, create first commit + tag when ready (`docs/release-checklist.md`).
+Public repo: https://github.com/faizxmohammad/jdi — clone URL and `sourceUrl` updated.  
+Still open: first release tag (`v0.1.0`) when ready (`docs/release-checklist.md`). CI must be green on Node 24 (FTS5).
 
 ### 6. CI expansion (optional later)
 

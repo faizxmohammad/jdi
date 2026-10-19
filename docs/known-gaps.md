@@ -27,7 +27,7 @@ Last updated: 2026-10-19.
 ## Product
 
 - `recommend_skills` uses metadata/keyword ranking (no embeddings yet). Eval evidence: `docs/recommend-eval.md`.
-- Memory uses SQLite + FTS5 (`node:sqlite` experimental API) per ADR-003 — Postgres deferred.
+- Memory uses SQLite + FTS5 (`node:sqlite`) per ADR-003 — requires **Node >=24** (Node 22.14 CI lacked FTS5). Postgres deferred.
 - Docker `./data` must be owned by container UID (typically 100); never default to `chmod 777`.
 - Memory capture is explicit only (agent submits context).
 - Sync CLI targets Claude Code / Cursor skill directories; override paths via env if needed.

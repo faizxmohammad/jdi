@@ -8,7 +8,7 @@ Phase 0 defines supported clients and a manual verification procedure. Automated
 |---|---|---|---|
 | Claude Code CLI | Streamable HTTP (`/mcp`) with `Authorization: Bearer` | Latest stable Claude Code CLI that supports `claude mcp add --transport http` | **Unverified** on clean machine |
 | Cursor IDE | HTTP MCP via `~/.cursor/mcp.json` `url` + `headers` | Cursor builds that support HTTP MCP servers and `${env:VAR}` (or equivalent) in headers | **Unverified** on clean machine |
-| Direct HTTP (dev/tests) | Express + `@modelcontextprotocol/sdk` Streamable HTTP, JSON response mode | Node.js `>=22.14.0`; MCP SDK locked via `package-lock.json` | **Verified** by automated suite (`npm test`) |
+| Direct HTTP (dev/tests) | Express + `@modelcontextprotocol/sdk` Streamable HTTP, JSON response mode | Node.js `>=24.0.0`; MCP SDK locked via `package-lock.json` | **Verified** by automated suite (`npm test`) |
 
 Notes:
 
