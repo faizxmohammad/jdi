@@ -1,0 +1,28 @@
+{
+  "credentials": [
+    {
+      "id": "alice-laptop",
+      "token": "replace-alice-with-at-least-32-random-chars",
+      "ownerId": "alice",
+      "orgId": "acme-eng",
+      "scopes": ["catalog:read", "catalog:write", "memory:read", "memory:write", "admin"],
+      "revoked": false
+    },
+    {
+      "id": "bob-ci",
+      "token": "replace-bob-with-at-least-32-random-charsxx",
+      "ownerId": "bob",
+      "orgId": "acme-eng",
+      "scopes": ["catalog:read", "memory:read", "memory:write"],
+      "revoked": false
+    },
+    {
+      "id": "carol-readonly",
+      "token": "replace-carol-with-at-least-32-random-chars",
+      "ownerId": "carol",
+      "orgId": "acme-eng",
+      "scopes": ["catalog:read", "memory:read"],
+      "revoked": false
+    }
+  ]
+}

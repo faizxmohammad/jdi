@@ -1,0 +1,17 @@
+{
+  "orgs": [
+    {
+      "id": "acme-eng",
+      "name": "Acme Engineering",
+      "catalogPath": "./skills",
+      "members": [
+        { "ownerId": "alice", "role": "owner" },
+        { "ownerId": "bob", "role": "member" },
+        { "ownerId": "carol", "role": "viewer" }
+      ],
+      "approvedChannels": ["stable", "beta"],
+      "requireApprovedVersions": false,
+      "policyNotes": "Pin skills for CI agents; prefer stable channel for production agents."
+    }
+  ]
+}

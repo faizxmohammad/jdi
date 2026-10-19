@@ -1,0 +1,46 @@
+# Secrets / local env
+.env
+.env.*
+!.env.example
+secrets/**/*.json
+!secrets/**/*.example.json
+!secrets/api-tokens.example.json
+
+# Dependencies and build
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Runtime data (SQLite memory, local state)
+data/**
+!data/.gitkeep
+*.sqlite
+*.sqlite-*
+
+# Logs and OS junk
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Editor / local tooling
+.idea/
+.vscode/
+*.swp
+*.swo
+.cursor/
+
+# Archives and accidental dumps
+*.zip
+docs.zip
+
+# Test / tool caches
+.vite/
+.turbo/
+.cache/
+
+# Docker override leftovers / ephemeral verify dirs
+docker-compose.override.yml
+.tmp-compose.override.yml
+.tmp-docker-data/

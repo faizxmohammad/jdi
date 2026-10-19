@@ -1,0 +1,24 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-19",
+  "sources": [
+    {
+      "id": "just-do-it-local",
+      "title": "Just Do It catalog skills",
+      "sourceUrl": "https://example.invalid/just-do-it",
+      "sourcePath": "skills/",
+      "entryType": "instruction_skill",
+      "license": "MIT",
+      "licenseNotes": "Original catalog content in this repository under LICENSE (MIT). No external redistribution dependencies. Attribution not required beyond MIT notice.",
+      "attributionRequired": false,
+      "importStatus": "imported",
+      "validationOutcome": "Security/quality: instruction-only SKILL.md files; MCP tools do not execute skill scripts. Import gate requires explicit sourceId. Decision: ship as sole catalog source for MVP (docs/source-policy.md, ADR-002). External brainstorm inventories are not imported.",
+      "knownLimitations": [
+        "sourceUrl is a placeholder until the public repository URL is finalized.",
+        "Pin commitOrRelease to a git tag when publishing a release.",
+        "node:sqlite experimental API is unrelated to this source but applies to memory storage (ADR-003)."
+      ],
+      "lastReviewedAt": "2026-10-19T00:00:00.000Z"
+    }
+  ]
+}

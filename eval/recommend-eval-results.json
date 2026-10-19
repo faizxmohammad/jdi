@@ -1,0 +1,464 @@
+{
+  "catalogSkillIds": [
+    "database-migrations",
+    "hotel-booking-debugger",
+    "java-spring-boot",
+    "nodejs-architecture",
+    "regression-testing"
+  ],
+  "measurement": "Compare equal-weight token baseline vs metadata_weighted_v1 on the same cases. Primary: Hit@3. Secondary: Precision@3 and abstain accuracy. Gate: improve Hit@3, or hold Hit@3 while improving Precision@3 or abstain accuracy; fabricationCount must be 0.",
+  "baseline": {
+    "mode": "keyword_token_equal",
+    "hitAt3": "1.000 (15/15)",
+    "precisionAt3": "0.833 (13.333333333333332/16)",
+    "abstainAccuracy": "0.857 (6/7)",
+    "fabricationCount": 0,
+    "cases": [
+      {
+        "id": "spring-endpoint",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "flyway-migration",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "node-modules",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "regression-auth",
+        "status": "ok",
+        "topIds": [
+          "regression-testing"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "hotel-payment",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "flaky-ci",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot",
+          "regression-testing"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "sql-schema",
+        "status": "ok",
+        "topIds": [
+          "database-migrations",
+          "java-spring-boot",
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "java-service",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot",
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "weather-unrelated",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "playwright-unsupported",
+        "status": "ok",
+        "topIds": [
+          "regression-testing"
+        ],
+        "hitAt3": false,
+        "precisionAt3": 0,
+        "abstainOk": false
+      },
+      {
+        "id": "vague-help",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "context-hint",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "liquibase-synonym",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "cooking-abstain",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "k8s-abstain",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "crypto-abstain",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "express-modules",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "hotel-inventory",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "spring-migration-overlap",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "fix-only-vague",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "regression-payment-overlap",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger",
+          "regression-testing"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "sql-only-migration",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      }
+    ]
+  },
+  "recommend": {
+    "mode": "metadata_weighted_v1",
+    "hitAt3": "1.000 (15/15)",
+    "precisionAt3": "0.967 (14.5/15)",
+    "abstainAccuracy": "1.000 (7/7)",
+    "fabricationCount": 0,
+    "cases": [
+      {
+        "id": "spring-endpoint",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "flyway-migration",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "node-modules",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "regression-auth",
+        "status": "ok",
+        "topIds": [
+          "regression-testing"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "hotel-payment",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "flaky-ci",
+        "status": "ok",
+        "topIds": [
+          "regression-testing",
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "sql-schema",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "java-service",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "weather-unrelated",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "playwright-unsupported",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "vague-help",
+        "status": "needs_clarification",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "context-hint",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "liquibase-synonym",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "cooking-abstain",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "k8s-abstain",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "crypto-abstain",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "express-modules",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "hotel-inventory",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "spring-migration-overlap",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot",
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "fix-only-vague",
+        "status": "needs_clarification",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "regression-payment-overlap",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger",
+          "regression-testing"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "sql-only-migration",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      }
+    ]
+  },
+  "exitGate": {
+    "hitAt3Improved": false,
+    "precisionAt3Improved": true,
+    "abstainImproved": true,
+    "improvedOverBaseline": true,
+    "noFabrication": true,
+    "passSelfCheck": true,
+    "baselineHitAt3": 1,
+    "recommendHitAt3": 1,
+    "baselinePrecisionAt3": 0.8333333333333333,
+    "recommendPrecisionAt3": 0.9666666666666667,
+    "baselineAbstainAccuracy": 0.8571428571428571,
+    "recommendAbstainAccuracy": 1
+  }
+}

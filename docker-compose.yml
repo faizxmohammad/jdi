@@ -1,0 +1,39 @@
+services:
+  just-do-it:
+    build: .
+    container_name: just-do-it
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8080
+      JUST_DO_IT_TOKEN: ${JUST_DO_IT_TOKEN:?Set JUST_DO_IT_TOKEN in .env}
+      JUST_DO_IT_OWNER_ID: ${JUST_DO_IT_OWNER_ID:?Set JUST_DO_IT_OWNER_ID in .env}
+      JUST_DO_IT_DEPLOYMENT_MODE: ${JUST_DO_IT_DEPLOYMENT_MODE:-private}
+      JUST_DO_IT_CATALOG_PATH: /data/skills
+      JUST_DO_IT_MAX_SKILL_BYTES: 262144
+      JUST_DO_IT_MEMORY_PATH: /data/memory/memory.sqlite
+      JUST_DO_IT_MEMORY_DEFAULT_RETENTION_DAYS: "0"
+    volumes:
+      - ./skills:/data/skills:ro
+      # Writable project memory (SQLite). Required because the container rootfs is read-only.
+      # Host ./data must be writable by container user `app` (see README).
+      - ./data:/data/memory
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,noexec,nosuid
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 1.0
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/health/live').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

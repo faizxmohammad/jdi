@@ -1,0 +1,164 @@
+{
+  "version": "0.2.0",
+  "description": "Recommend eval against local seed catalog. suite=regression preserves the original Phase 2 baseline (13). Extra cases cover abstain, overlap, ambiguity, and irrelevant tasks. Small-denominator Precision@3 is a regression signal, not proof of generalization.",
+  "metricNotes": "Hit@3 = expected skill id appears in top-3 when status is ok or needs_clarification with recommendations. Precision@3 = |recommended ∩ expected| / |recommended| averaged over cases that emit recommendations. AbstainAcc = cases with expectStatus insufficient_evidence|needs_clarification that match. Fabrication = any recommended id not in catalog (must be 0).",
+  "cases": [
+    {
+      "id": "spring-endpoint",
+      "suite": "regression",
+      "task": "Add a Spring Boot REST endpoint for user profiles",
+      "expectedSkillIds": ["java-spring-boot"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "flyway-migration",
+      "suite": "regression",
+      "task": "Plan a Flyway database migration with a tested rollback path",
+      "expectedSkillIds": ["database-migrations"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "node-modules",
+      "suite": "regression",
+      "task": "Refactor a Node.js TypeScript service into clearer module boundaries",
+      "expectedSkillIds": ["nodejs-architecture"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "regression-auth",
+      "suite": "regression",
+      "task": "Add a regression test that fails if auth validation breaks again",
+      "expectedSkillIds": ["regression-testing"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "hotel-payment",
+      "suite": "regression",
+      "task": "Hotel booking payment fails at checkout — isolate the failure",
+      "expectedSkillIds": ["hotel-booking-debugger"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "flaky-ci",
+      "suite": "regression",
+      "task": "Fix a flaky CI regression test for a backend service",
+      "expectedSkillIds": ["regression-testing"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "sql-schema",
+      "suite": "regression",
+      "task": "Design a backward-compatible SQL schema change for bookings",
+      "expectedSkillIds": ["database-migrations"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "java-service",
+      "suite": "regression",
+      "task": "Make a small backward-compatible change in a Java 21 service",
+      "expectedSkillIds": ["java-spring-boot"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "weather-unrelated",
+      "suite": "regression",
+      "task": "What is the weather in Paris tomorrow afternoon",
+      "expectedSkillIds": [],
+      "expectStatus": "insufficient_evidence"
+    },
+    {
+      "id": "playwright-unsupported",
+      "suite": "regression",
+      "task": "Install Playwright browser automation CLI and run e2e tests",
+      "expectedSkillIds": [],
+      "expectStatus": "insufficient_evidence"
+    },
+    {
+      "id": "vague-help",
+      "suite": "regression",
+      "task": "help me",
+      "expectedSkillIds": [],
+      "expectStatus": "needs_clarification"
+    },
+    {
+      "id": "context-hint",
+      "suite": "regression",
+      "task": "Apply the next change safely",
+      "projectContext": "Postgres + Flyway migrations; avoid destructive DDL",
+      "expectedSkillIds": ["database-migrations"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "liquibase-synonym",
+      "suite": "regression",
+      "task": "Use Liquibase to migrate the schema safely with rollback",
+      "expectedSkillIds": ["database-migrations"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "cooking-abstain",
+      "suite": "expanded",
+      "task": "Write a vegetarian pasta recipe with garlic and olive oil",
+      "expectedSkillIds": [],
+      "expectStatus": "insufficient_evidence"
+    },
+    {
+      "id": "k8s-abstain",
+      "suite": "expanded",
+      "task": "Tune Kubernetes HPA and PodDisruptionBudgets for a public API",
+      "expectedSkillIds": [],
+      "expectStatus": "insufficient_evidence"
+    },
+    {
+      "id": "crypto-abstain",
+      "suite": "expanded",
+      "task": "Implement secp256k1 ECDSA signing for a wallet",
+      "expectedSkillIds": [],
+      "expectStatus": "insufficient_evidence"
+    },
+    {
+      "id": "express-modules",
+      "suite": "expanded",
+      "task": "Split an Express TypeScript API into clearer modules and boundaries",
+      "expectedSkillIds": ["nodejs-architecture"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "hotel-inventory",
+      "suite": "expanded",
+      "task": "Hotel booking inventory shows sold-out incorrectly after payment succeeds",
+      "expectedSkillIds": ["hotel-booking-debugger"],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "spring-migration-overlap",
+      "suite": "expanded",
+      "task": "Change the Spring Boot bookings service and its Flyway migration together",
+      "expectedSkillIds": ["java-spring-boot", "database-migrations"],
+      "expectStatus": "ok",
+      "notes": "Current ranker returns ok with both catalog skills when both score well; tighten clarify threshold later if product wants force-clarify here."
+    },
+    {
+      "id": "fix-only-vague",
+      "suite": "expanded",
+      "task": "fix it",
+      "expectedSkillIds": [],
+      "expectStatus": "needs_clarification"
+    },
+    {
+      "id": "regression-payment-overlap",
+      "suite": "expanded",
+      "task": "Add a regression test for hotel booking payment failures",
+      "expectedSkillIds": ["regression-testing", "hotel-booking-debugger"],
+      "expectStatus": "ok",
+      "notes": "Overlapping domain: both skills may appear; Hit@3 passes if either expected id is present."
+    },
+    {
+      "id": "sql-only-migration",
+      "suite": "expanded",
+      "task": "Write a reversible SQL migration for the bookings table",
+      "expectedSkillIds": ["database-migrations"],
+      "expectStatus": "ok"
+    }
+  ]
+}
