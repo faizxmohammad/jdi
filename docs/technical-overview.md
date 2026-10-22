@@ -157,17 +157,25 @@ YAML frontmatter + markdown body. Required / important fields (see `src/catalog/
 
 Body = instructions the agent should follow. Treated as **untrusted text** (never executed by Just Do It).
 
-### Current shipped skills (v0.1.0)
+### Current shipped skills
+
+Thirteen first-party skills under `skills/`, all `sourceId: just-do-it-local`. The original five engineering/domain examples remain. Eight later skills encode workflows studied from external projects without copying their text. Detail and the project-by-project decision are in `docs/capability-integration-report.md`.
 
 | Skill id | Category | Intent |
 |---|---|---|
-| `java-spring-boot` | engineering | Java 21 / Spring Boot services — small, testable, backward-compatible changes |
-| `nodejs-architecture` | engineering | Node.js TypeScript services — module boundaries and safe defaults |
-| `database-migrations` | engineering | Backward-compatible DB migrations and rollback discipline |
-| `regression-testing` | engineering | Focused regression tests for protected behavior |
-| `hotel-booking-debugger` | domain | Debug hotel booking flows (request / inventory / pricing / payment) |
-
-All use `sourceId: just-do-it-local` and live under this repository’s `skills/` tree.
+| `java-spring-boot` | engineering | Java 21 / Spring Boot services |
+| `nodejs-architecture` | engineering | Node.js TypeScript module boundaries |
+| `database-migrations` | engineering | Backward-compatible DB migrations and rollback |
+| `regression-testing` | engineering | Regression tests for protected behavior |
+| `hotel-booking-debugger` | domain | Hotel booking request / inventory / pricing / payment |
+| `smallest-change` | delivery | Smallest complete diff |
+| `current-library-docs` | documentation | Context7 lookup before API code |
+| `repo-orientation` | analysis | Entry-point reading with cited vs inferred claims |
+| `interface-review` | interface | One design system, thesis, accessibility |
+| `browser-verification` | verification | Playwright CLI in the user environment |
+| `find-catalog-skill` | catalog | Search this catalog before an outside install |
+| `session-skill-review` | catalog | Draft a skill for human review |
+| `defensive-review` | security | Trust boundaries and secrets, no attack steps |
 
 ### Adding a skill
 
@@ -190,11 +198,12 @@ MCP tools are **read-only** for catalog content. Writes go through Git or `npm r
      { "task": "Add a Flyway migration for the bookings table with rollback",
        "projectContext": "Java Spring Boot service",   // optional
        "limit": 5 }
-3. Server tokenizes task (+ context), expands synonyms (e.g. flyway → migrations),
+3. Server tokenizes task (+ context), applies declared triggers and the legacy synonym map,
    scores each authorized skill summary, returns ranked list + explanations.
-4. Typical top hit: database-migrations (and/or java-spring-boot).
-5. Agent calls get_skill { "skillName": "database-migrations" }.
-6. Agent follows SKILL.md body while implementing.
+4. Agent calls plan_capabilities for the same task. The plan names which bodies fit the
+   context budget and which external tools (for example Context7) the skill requires.
+5. Agent calls get_skill only for steps with includeBody=true.
+6. Agent follows that body. External calls go through call_external_capability when the proxy is enabled, otherwise the agent uses the documented endpoint from the plan.
 ```
 
 ### 5.2 Tools involved
@@ -202,8 +211,12 @@ MCP tools are **read-only** for catalog content. Writes go through Git or `npm r
 | Tool | Input | Output | When to use |
 |---|---|---|---|
 | `recommend_skills` | `task`, optional `projectContext`, `limit` | Ranked skills + evidence, or abstain / clarify | “What skill fits this work?” |
+| `plan_capabilities` | `task`, optional budget | Ordered steps, body budget, required tools | Before loading several skills |
 | `search_skills` | `query`, optional `category`, `limit` | Summaries (no full bodies) | Browse / keyword lookup |
 | `get_skill` | `skillName`, optional `version` | Full body + digest + provenance | Load instructions before acting |
+| `list_external_capabilities` | — | Context7 and Playwright CLI metadata, no secrets | See what is wired |
+| `call_external_capability` | capability, tool, query fields | Docs payload, or `disabled` with the MCP URL | Library docs when a skill requires Context7 |
+| `draft_skill_candidate` | name, description, body | Markdown, `persisted: false` | After a repeated correction |
 | `just_do_it_version` | — | Server / catalog / capability metadata | Health / governance |
 
 Memory tools (`save_project_context`, `get_project_context`, `search_project_memory`, …) are **separate**: they persist agent-submitted notes per `ownerId` + `projectId`. They do not auto-scrape the chat.
@@ -213,9 +226,10 @@ Memory tools (`save_project_context`, `get_project_context`, `search_project_mem
 Implementation: `src/skills/recommend.ts`.
 
 1. **Tokenize** task (+ optional `projectContext`); drop stopwords.  
-2. **Expand** tokens via a small synonym map (e.g. `spring` → `java-spring-boot`, `flyway` → `database-migrations`).  
+2. **Expand** tokens via a legacy synonym map kept for the original seed skills. New skills declare `triggers` instead of new map entries.  
 3. **Score** each catalog summary (not full bodies):  
-   - id/name match ≈ +10  
+   - declared trigger phrase ≈ +16  
+   - id/name match ≈ +10 (generic tokens such as `review` and `skill` do not count)  
    - tag match ≈ +8  
    - category match ≈ +5  
    - description token ≈ +2  
@@ -425,7 +439,8 @@ Point MCP clients at `https://<hostname>.ts.net/mcp` with the same bearer header
 
 - [x] Streamable HTTP MCP with bearer auth  
 - [x] Catalog search / get / recommend  
-- [x] Git-backed `skills/` catalog (5 seed skills)  
+- [x] Git-backed `skills/` catalog (13 first-party skills)  
+- [x] `plan_capabilities`, external capability registry, optional Context7 proxy  
 - [x] Project memory (explicit save/search)  
 - [x] Local sync CLI to Claude Code / Cursor skill dirs  
 - [x] Docker Compose + local Node run  
@@ -437,7 +452,7 @@ Point MCP clients at `https://<hostname>.ts.net/mcp` with the same bearer header
 |---|---|---|
 | Prompt → skill | Agent-mediated tool calls only | Should we add client-side hooks / system prompts that *require* `recommend_skills` before coding tasks? |
 | Ranking | Keyword + synonym weights; eval in `docs/recommend-eval.md` | Embeddings / hybrid search worth the complexity? |
-| Catalog size | 5 skills | Which domains to expand first for our teams? |
+| Catalog size | 13 first-party skills | Which real tasks still abstain? See `docs/capability-integration-report.md` |
 | Sync vs MCP get | Dual path | Prefer always `get_skill`, or always install-to-client-dir? |
 | Memory | Explicit agent submit | Auto-capture of decisions — product risk vs value? |
 | Auth | Shared bearer / file tokens | When do we need OIDC for private team hosts? |

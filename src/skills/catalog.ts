@@ -18,6 +18,8 @@ import {
   type ParsedSkillFile,
 } from "../catalog/skillFiles.js"
 import { SERVER_VERSION } from "../version.js"
+import { loadExternalRegistry, isProxyEnabled } from "../integrations/registry.js"
+import { buildCapabilityPlan, type CapabilityPlan } from "./plan.js"
 import {
   recommendSkills,
   type RecommendOptions,
@@ -26,6 +28,7 @@ import {
 
 export type { SkillRecord, SkillSummary }
 export type { RecommendOptions, RecommendResult }
+export type { CapabilityPlan }
 
 export interface CatalogOptions {
   catalogPath?: string
@@ -99,6 +102,10 @@ export class SkillCatalog {
       description: string
       entryType: ParsedSkillFile["entryType"]
       tags: string[]
+      triggers: string[]
+      requires: string[]
+      provides: string[]
+      outputs?: string
       category?: string
       version: string
       validationStatus: ParsedSkillFile["validationStatus"]
@@ -109,6 +116,10 @@ export class SkillCatalog {
       description: skill.description,
       entryType: skill.entryType,
       tags: skill.tags,
+      triggers: skill.triggers,
+      requires: skill.requires,
+      provides: skill.provides,
+      ...(skill.outputs ? { outputs: skill.outputs } : {}),
       version: skill.version,
       validationStatus: skill.validationStatus,
       provenance: await this.provenanceFor(skill),
@@ -128,6 +139,10 @@ export class SkillCatalog {
       summary.description,
       summary.category ?? "",
       summary.tags.join(" "),
+      summary.triggers.join(" "),
+      summary.requires.join(" "),
+      summary.provides.join(" "),
+      summary.outputs ?? "",
       summary.entryType,
       summary.provenance.sourceId ?? "",
     ]
@@ -206,6 +221,41 @@ export class SkillCatalog {
     return recommendSkills(candidates, options)
   }
 
+  /**
+   * Select skills, name the tools they require, and decide which bodies fit the context budget.
+   * Does not execute skill scripts or external tools.
+   */
+  async plan(
+    options: RecommendOptions & { contextBudgetBytes?: number },
+  ): Promise<CapabilityPlan> {
+    const recommendation = await this.recommend(options)
+    const bodies = []
+    for (const item of recommendation.recommendations) {
+      try {
+        const record = await this.read(item.skill.id)
+        bodies.push({ id: item.skill.id, bytes: record.bytes })
+      } catch {
+        bodies.push({ id: item.skill.id, bytes: 0 })
+      }
+    }
+    let capabilities: ReturnType<typeof loadExternalRegistry>["capabilities"] = []
+    try {
+      capabilities = loadExternalRegistry().capabilities
+    } catch {
+      capabilities = []
+    }
+    const planOptions: Parameters<typeof buildCapabilityPlan>[0] = {
+      recommendation,
+      bodies,
+      capabilities,
+      proxyEnabled: isProxyEnabled(process.env),
+    }
+    if (options.contextBudgetBytes !== undefined) {
+      planOptions.contextBudgetBytes = options.contextBudgetBytes
+    }
+    return buildCapabilityPlan(planOptions)
+  }
+
   async read(skillName: string, version?: string): Promise<SkillRecord> {
     if (!SKILL_NAME.test(skillName)) throw new Error("Invalid skill name")
 
@@ -255,6 +305,10 @@ export class SkillCatalog {
         "search_skills",
         "get_skill",
         "recommend_skills",
+        "plan_capabilities",
+        "list_external_capabilities",
+        "call_external_capability",
+        "draft_skill_candidate",
         "get_project_context",
         "save_project_context",
         "search_project_memory",

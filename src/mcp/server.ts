@@ -14,7 +14,10 @@ import type { OrgStore } from "../org/store.js"
 import { requireScope, ScopeDeniedError, type TokenScope } from "../org/scopes.js"
 import type { AuditLogger } from "../security/audit.js"
 import type { AuthPrincipal } from "../security/credentials.js"
+import { callExternalCapability } from "../integrations/context7.js"
+import { describeCapabilities, loadExternalRegistry } from "../integrations/registry.js"
 import type { SkillCatalog } from "../skills/catalog.js"
+import { draftSkillCandidate } from "../skills/draft.js"
 import { SERVER_VERSION } from "../version.js"
 
 export interface McpServerDeps {
@@ -195,6 +198,153 @@ export const createMcpServer = (deps: McpServerDeps): McpServer => {
         return (
           scopeError(error) ??
           jsonError(error instanceof Error ? error.message : "Unable to recommend")
+        )
+      }
+    },
+  )
+
+  server.registerTool(
+    "plan_capabilities",
+    {
+      title: "Plan capabilities",
+      description:
+        "Select catalog skills for a task, name required external tools, and decide which skill bodies fit the context budget. Does not execute skills or external tools. Full bodies come from get_skill for steps with includeBody=true.",
+      inputSchema: {
+        task: z.string().min(1).max(2000).describe("What the user wants the agent to do"),
+        projectContext: z.string().max(4000).optional().describe("Optional project hint"),
+        limit: z.number().int().min(1).max(10).default(5),
+        contextBudgetBytes: z
+          .number()
+          .int()
+          .min(200)
+          .max(200_000)
+          .optional()
+          .describe("Max skill-body bytes to load. Default 12000."),
+      },
+    },
+    async ({ task, projectContext, limit, contextBudgetBytes }) => {
+      try {
+        assertScope("catalog:read")
+        const input: Parameters<SkillCatalog["plan"]>[0] = { task, limit }
+        if (projectContext !== undefined) input.projectContext = projectContext
+        if (contextBudgetBytes !== undefined) input.contextBudgetBytes = contextBudgetBytes
+        return jsonResult(await catalog.plan(input))
+      } catch (error) {
+        return (
+          scopeError(error) ??
+          jsonError(error instanceof Error ? error.message : "Unable to plan capabilities")
+        )
+      }
+    },
+  )
+
+  server.registerTool(
+    "list_external_capabilities",
+    {
+      title: "List external capabilities",
+      description:
+        "List documented external MCP and CLI capabilities. Does not vendor third-party source. Reports whether the Context7 proxy is enabled and whether an API key is configured, without returning the key.",
+      inputSchema: {},
+    },
+    async () => {
+      try {
+        assertScope("catalog:read")
+        const registry = loadExternalRegistry()
+        return jsonResult({
+          proxyEnabled: process.env.JUST_DO_IT_EXTERNAL_CALLS === "enabled",
+          capabilities: describeCapabilities(registry, process.env),
+        })
+      } catch (error) {
+        return (
+          scopeError(error) ??
+          jsonError(error instanceof Error ? error.message : "Unable to list external capabilities")
+        )
+      }
+    },
+  )
+
+  server.registerTool(
+    "call_external_capability",
+    {
+      title: "Call external capability",
+      description:
+        "Call an allowlisted external capability. Context7 tools resolve-library-id and query-docs proxy only when JUST_DO_IT_EXTERNAL_CALLS=enabled. Otherwise returns the documented MCP endpoint and schema. Never executes skill scripts.",
+      inputSchema: {
+        capabilityId: z.string().min(1).max(80),
+        tool: z.string().min(1).max(80),
+        query: z.string().max(2000).optional(),
+        libraryName: z.string().max(200).optional(),
+        libraryId: z.string().max(200).optional(),
+        language: z.string().max(40).optional(),
+      },
+    },
+    async (args) => {
+      try {
+        assertScope("catalog:read")
+        const registry = loadExternalRegistry()
+        const input: Parameters<typeof callExternalCapability>[0] = {
+          capabilityId: args.capabilityId,
+          tool: args.tool,
+        }
+        if (args.query !== undefined) input.query = args.query
+        if (args.libraryName !== undefined) input.libraryName = args.libraryName
+        if (args.libraryId !== undefined) input.libraryId = args.libraryId
+        if (args.language !== undefined) input.language = args.language
+        const result = await callExternalCapability(input, { registry })
+        if (
+          result.status === "invalid_input" ||
+          result.status === "upstream_error" ||
+          result.status === "not_allowed"
+        ) {
+          return jsonError(JSON.stringify(result))
+        }
+        return jsonResult(result)
+      } catch (error) {
+        return (
+          scopeError(error) ??
+          jsonError(error instanceof Error ? error.message : "Unable to call external capability")
+        )
+      }
+    },
+  )
+
+  server.registerTool(
+    "draft_skill_candidate",
+    {
+      title: "Draft skill candidate",
+      description:
+        "Validate and return a SKILL.md draft for human review. Does not write the catalog. Use after a correction that should become a skill.",
+      inputSchema: {
+        name: z.string().min(1).max(80),
+        description: z.string().min(1).max(500),
+        body: z.string().min(1).max(4000),
+        triggers: z.array(z.string().min(1).max(80)).max(20).optional(),
+        requires: z.array(z.string().min(1).max(80)).max(20).optional(),
+        provides: z.array(z.string().min(1).max(80)).max(20).optional(),
+        outputs: z.string().min(1).max(300).optional(),
+        entryType: z.string().max(40).optional(),
+      },
+    },
+    async (args) => {
+      try {
+        assertScope("catalog:read")
+        const input: Parameters<typeof draftSkillCandidate>[0] = {
+          name: args.name,
+          description: args.description,
+          body: args.body,
+        }
+        if (args.triggers !== undefined) input.triggers = args.triggers
+        if (args.requires !== undefined) input.requires = args.requires
+        if (args.provides !== undefined) input.provides = args.provides
+        if (args.outputs !== undefined) input.outputs = args.outputs
+        if (args.entryType !== undefined) input.entryType = args.entryType
+        const draft = draftSkillCandidate(input)
+        if (draft.status !== "ok") return jsonError(JSON.stringify(draft))
+        return jsonResult(draft)
+      } catch (error) {
+        return (
+          scopeError(error) ??
+          jsonError(error instanceof Error ? error.message : "Unable to draft skill")
         )
       }
     },

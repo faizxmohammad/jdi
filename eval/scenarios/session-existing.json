@@ -1,0 +1,79 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "session-existing",
+  "skillId": "session-skill-review",
+  "title": "Do not draft a duplicate",
+  "task": "Turn this repeated correction into a skill observation: the agent guessed library APIs from memory.",
+  "contextNote": "Search the catalog before drafting. If a skill already covers library docs, do not draft another.",
+  "fixtureFiles": {},
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "search_skills"
+    ],
+    "mustCite": [
+      "current-library-docs"
+    ],
+    "citeFromTools": [
+      "search_skills"
+    ],
+    "deliverableIncludes": [
+      "existing"
+    ],
+    "forbidTools": [
+      "draft_skill_candidate"
+    ],
+    "recommendIncludes": [
+      "session-skill-review"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "session-skill-review"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "search_skills",
+          "args": {
+            "query": "library docs"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "search_skills already returns current-library-docs. Use that existing skill. I did not draft a duplicate and I did not write the catalog."
+    }
+  ]
+}

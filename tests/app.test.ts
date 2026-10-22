@@ -157,12 +157,16 @@ describe("HTTP app", () => {
     }
     const names = (toolsBody.result?.tools ?? []).map((tool) => tool.name).sort()
     expect(names).toEqual([
+      "call_external_capability",
       "delete_project_memory",
+      "draft_skill_candidate",
       "export_project_memory",
       "get_project_context",
       "get_skill",
       "just_do_it_version",
+      "list_external_capabilities",
       "list_project_memory",
+      "plan_capabilities",
       "recommend_skills",
       "save_project_context",
       "search_project_memory",

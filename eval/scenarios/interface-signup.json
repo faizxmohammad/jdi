@@ -1,0 +1,78 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "interface-signup",
+  "skillId": "interface-review",
+  "title": "Sign-up accessibility findings",
+  "task": "Review the sign-up UI for an accessibility audit. Read the fixture.",
+  "contextNote": "Read fixtures/signup.html. Report only issues visible in that file.",
+  "fixtureFiles": {
+    "fixtures/signup.html": "<input type=\"email\" />\n<button>Go</button>\n<style>button:focus { outline: none }</style>\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "outline: none"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "label"
+    ],
+    "recommendIncludes": [
+      "interface-review"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "interface-review"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/signup.html"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "The email input has no label. The button text does not say what it does. Focus styling is outline: none with no replacement."
+    }
+  ]
+}

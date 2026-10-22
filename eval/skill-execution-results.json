@@ -1,0 +1,244 @@
+{
+  "generatedAt": "2026-10-22T05:50:04.944Z",
+  "batchKind": "simulated",
+  "operationallyValidated": false,
+  "note": "Simulated runs use scripted turns against the real catalog and tool dispatcher. A pass shows the loop and grader worked. It does not show that a live model followed the skill.",
+  "passed": 13,
+  "failed": 0,
+  "blocked": 0,
+  "results": [
+    {
+      "scenarioId": "browser-missing",
+      "skillId": "browser-verification",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "browser-verification"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill"
+      ],
+      "durationMs": 10,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "db-expand",
+      "skillId": "database-migrations",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "database-migrations"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture",
+        "write_artifact"
+      ],
+      "durationMs": 2,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "defensive-webhook",
+      "skillId": "defensive-review",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "defensive-review"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "find-ponytail",
+      "skillId": "find-catalog-skill",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "find-catalog-skill"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "hbd-partial-cancel",
+      "skillId": "hotel-booking-debugger",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "hotel-booking-debugger"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "interface-signup",
+      "skillId": "interface-review",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "interface-review"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "java-endpoint",
+      "skillId": "java-spring-boot",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "java-spring-boot"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "library-docs-disabled",
+      "skillId": "current-library-docs",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "current-library-docs"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "call_external_capability"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "node-circular",
+      "skillId": "nodejs-architecture",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "nodejs-architecture"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "regression-flaky",
+      "skillId": "regression-testing",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "regression-testing"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "repo-trace",
+      "skillId": "repo-orientation",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "repo-orientation"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 0,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "session-existing",
+      "skillId": "session-skill-review",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "session-skill-review"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "search_skills"
+      ],
+      "durationMs": 0,
+      "usageSource": "unavailable"
+    },
+    {
+      "scenarioId": "smallest-format",
+      "skillId": "smallest-change",
+      "kind": "simulated",
+      "status": "pass",
+      "operationallyValidated": false,
+      "reasons": [],
+      "loadedSkillIds": [
+        "smallest-change"
+      ],
+      "toolNames": [
+        "recommend_skills",
+        "get_skill",
+        "read_fixture"
+      ],
+      "durationMs": 1,
+      "usageSource": "unavailable"
+    }
+  ]
+}

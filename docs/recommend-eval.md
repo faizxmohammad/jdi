@@ -11,7 +11,7 @@
 | `regression` (13 cases) | Original Phase 2 baseline — keep stable |
 | `expanded` | Abstain / irrelevant / overlap / vague — growth set |
 
-Total cases in v0.2.0 file: **22**.
+Total cases in the current file: **29** (original regression set plus expanded workflow cases, including the Playwright case that now expects `browser-verification`).
 
 ## Caveat (lead review)
 

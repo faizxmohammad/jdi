@@ -1,0 +1,99 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "db-expand",
+  "skillId": "database-migrations",
+  "title": "Nullable column before backfill",
+  "task": "Plan a schema change that records when a booking was confirmed. Read the schema fixture first. Do not apply it to a shared database.",
+  "contextNote": "Read fixtures/bookings.sql. Write the migration under migrations/.",
+  "fixtureFiles": {
+    "fixtures/bookings.sql": "-- postgres 14\n-- bookings row count: 2000000\nCREATE TABLE bookings (id bigint primary key, status text);\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture",
+      "write_artifact"
+    ],
+    "mustCite": [
+      "2000000",
+      "bookings"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "backfill"
+    ],
+    "artifactIncludes": [
+      "confirmed_at",
+      "NULL",
+      "rollback"
+    ],
+    "prohibited": [
+      "DROP TABLE"
+    ],
+    "recommendIncludes": [
+      "database-migrations"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "database-migrations"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/bookings.sql"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "write_artifact",
+          "args": {
+            "path": "migrations/V001__confirmed_at.sql",
+            "content": "-- rollback: ALTER TABLE bookings DROP COLUMN confirmed_at\nALTER TABLE bookings ADD COLUMN confirmed_at timestamp NULL;\n"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "The fixture shows bookings with row count 2000000. Add confirmed_at as NULL first, backfill confirmed rows, then validate a constraint in a later migration. The artifact includes the rollback. I did not apply this to a shared database."
+    }
+  ]
+}

@@ -1,78 +1,92 @@
 {
   "catalogSkillIds": [
+    "browser-verification",
+    "current-library-docs",
     "database-migrations",
+    "defensive-review",
+    "find-catalog-skill",
     "hotel-booking-debugger",
+    "interface-review",
     "java-spring-boot",
     "nodejs-architecture",
-    "regression-testing"
+    "regression-testing",
+    "repo-orientation",
+    "session-skill-review",
+    "smallest-change"
   ],
   "measurement": "Compare equal-weight token baseline vs metadata_weighted_v1 on the same cases. Primary: Hit@3. Secondary: Precision@3 and abstain accuracy. Gate: improve Hit@3, or hold Hit@3 while improving Precision@3 or abstain accuracy; fabricationCount must be 0.",
   "baseline": {
     "mode": "keyword_token_equal",
-    "hitAt3": "1.000 (15/15)",
-    "precisionAt3": "0.833 (13.333333333333332/16)",
-    "abstainAccuracy": "0.857 (6/7)",
+    "hitAt3": "0.889 (32/36)",
+    "precisionAt3": "0.518 (19.166666666666664/37)",
+    "abstainAccuracy": "0.714 (5/7)",
     "fabricationCount": 0,
     "cases": [
       {
         "id": "spring-endpoint",
         "status": "ok",
         "topIds": [
-          "java-spring-boot"
+          "java-spring-boot",
+          "browser-verification",
+          "interface-review"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.3333333333333333,
         "abstainOk": null
       },
       {
         "id": "flyway-migration",
         "status": "ok",
         "topIds": [
-          "database-migrations"
+          "database-migrations",
+          "find-catalog-skill"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.5,
         "abstainOk": null
       },
       {
         "id": "node-modules",
         "status": "ok",
         "topIds": [
-          "nodejs-architecture"
+          "nodejs-architecture",
+          "defensive-review"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.5,
         "abstainOk": null
       },
       {
         "id": "regression-auth",
         "status": "ok",
         "topIds": [
-          "regression-testing"
+          "regression-testing",
+          "database-migrations",
+          "defensive-review"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.3333333333333333,
         "abstainOk": null
       },
       {
         "id": "hotel-payment",
         "status": "ok",
         "topIds": [
-          "hotel-booking-debugger"
+          "hotel-booking-debugger",
+          "regression-testing"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.5,
         "abstainOk": null
       },
       {
         "id": "flaky-ci",
         "status": "ok",
         "topIds": [
-          "java-spring-boot",
           "regression-testing"
         ],
         "hitAt3": true,
-        "precisionAt3": 0.5,
+        "precisionAt3": 1,
         "abstainOk": null
       },
       {
@@ -81,7 +95,7 @@
         "topIds": [
           "database-migrations",
           "java-spring-boot",
-          "nodejs-architecture"
+          "interface-review"
         ],
         "hitAt3": true,
         "precisionAt3": 0.3333333333333333,
@@ -107,14 +121,16 @@
         "abstainOk": true
       },
       {
-        "id": "playwright-unsupported",
+        "id": "playwright-browser",
         "status": "ok",
         "topIds": [
+          "browser-verification",
+          "find-catalog-skill",
           "regression-testing"
         ],
-        "hitAt3": false,
-        "precisionAt3": 0,
-        "abstainOk": false
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
       },
       {
         "id": "vague-help",
@@ -154,11 +170,13 @@
       },
       {
         "id": "k8s-abstain",
-        "status": "insufficient_evidence",
-        "topIds": [],
+        "status": "ok",
+        "topIds": [
+          "current-library-docs"
+        ],
         "hitAt3": false,
-        "precisionAt3": null,
-        "abstainOk": true
+        "precisionAt3": 0,
+        "abstainOk": false
       },
       {
         "id": "crypto-abstain",
@@ -172,30 +190,35 @@
         "id": "express-modules",
         "status": "ok",
         "topIds": [
-          "nodejs-architecture"
+          "nodejs-architecture",
+          "current-library-docs",
+          "defensive-review"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.3333333333333333,
         "abstainOk": null
       },
       {
         "id": "hotel-inventory",
         "status": "ok",
         "topIds": [
-          "hotel-booking-debugger"
+          "hotel-booking-debugger",
+          "smallest-change"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.5,
         "abstainOk": null
       },
       {
         "id": "spring-migration-overlap",
         "status": "ok",
         "topIds": [
-          "java-spring-boot"
+          "java-spring-boot",
+          "database-migrations",
+          "find-catalog-skill"
         ],
         "hitAt3": true,
-        "precisionAt3": 1,
+        "precisionAt3": 0.6666666666666666,
         "abstainOk": null
       },
       {
@@ -226,13 +249,245 @@
         "hitAt3": true,
         "precisionAt3": 1,
         "abstainOk": null
+      },
+      {
+        "id": "smallest-change-yagni",
+        "status": "ok",
+        "topIds": [
+          "database-migrations",
+          "java-spring-boot",
+          "nodejs-architecture"
+        ],
+        "hitAt3": false,
+        "precisionAt3": 0,
+        "abstainOk": null
+      },
+      {
+        "id": "context7-docs",
+        "status": "ok",
+        "topIds": [
+          "current-library-docs"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "repo-map",
+        "status": "ok",
+        "topIds": [
+          "repo-orientation",
+          "smallest-change"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "ui-review",
+        "status": "ok",
+        "topIds": [
+          "interface-review",
+          "defensive-review",
+          "session-skill-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "find-skill",
+        "status": "ok",
+        "topIds": [
+          "database-migrations",
+          "find-catalog-skill",
+          "defensive-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.6666666666666666,
+        "abstainOk": null
+      },
+      {
+        "id": "skill-draft",
+        "status": "ok",
+        "topIds": [
+          "session-skill-review",
+          "database-migrations",
+          "defensive-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "defensive-boundary",
+        "status": "ok",
+        "topIds": [
+          "defensive-review",
+          "current-library-docs",
+          "interface-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "availability-mismatch",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "spring-mvc",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot",
+          "database-migrations",
+          "defensive-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "fastify-module",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture",
+          "defensive-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "alter-table",
+        "status": "ok",
+        "topIds": [
+          "database-migrations",
+          "repo-orientation"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "input-sanitization",
+        "status": "ok",
+        "topIds": [
+          "defensive-review",
+          "database-migrations",
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.6666666666666666,
+        "abstainOk": null
+      },
+      {
+        "id": "write-a-test",
+        "status": "ok",
+        "topIds": [
+          "regression-testing",
+          "repo-orientation"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.5,
+        "abstainOk": null
+      },
+      {
+        "id": "trace-call-path",
+        "status": "ok",
+        "topIds": [
+          "repo-orientation",
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "understand-service",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture",
+          "smallest-change"
+        ],
+        "hitAt3": false,
+        "precisionAt3": 0,
+        "abstainOk": null
+      },
+      {
+        "id": "repo-negative-edit",
+        "status": "ok",
+        "topIds": [
+          "defensive-review"
+        ],
+        "hitAt3": false,
+        "precisionAt3": 0,
+        "abstainOk": false
+      },
+      {
+        "id": "wcag-audit",
+        "status": "ok",
+        "topIds": [
+          "browser-verification",
+          "current-library-docs",
+          "interface-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "design-system-review",
+        "status": "ok",
+        "topIds": [
+          "interface-review",
+          "defensive-review",
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 0.3333333333333333,
+        "abstainOk": null
+      },
+      {
+        "id": "interface-negative",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "minimal-diff",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": null
+      },
+      {
+        "id": "ponytail-scope",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": false,
+        "precisionAt3": 0,
+        "abstainOk": null
       }
     ]
   },
   "recommend": {
     "mode": "metadata_weighted_v1",
-    "hitAt3": "1.000 (15/15)",
-    "precisionAt3": "0.967 (14.5/15)",
+    "hitAt3": "1.000 (36/36)",
+    "precisionAt3": "1.000 (36/36)",
     "abstainAccuracy": "1.000 (7/7)",
     "fabricationCount": 0,
     "cases": [
@@ -270,7 +525,8 @@
         "id": "regression-auth",
         "status": "ok",
         "topIds": [
-          "regression-testing"
+          "regression-testing",
+          "java-spring-boot"
         ],
         "hitAt3": true,
         "precisionAt3": 1,
@@ -290,11 +546,10 @@
         "id": "flaky-ci",
         "status": "ok",
         "topIds": [
-          "regression-testing",
-          "java-spring-boot"
+          "regression-testing"
         ],
         "hitAt3": true,
-        "precisionAt3": 0.5,
+        "precisionAt3": 1,
         "abstainOk": null
       },
       {
@@ -326,12 +581,14 @@
         "abstainOk": true
       },
       {
-        "id": "playwright-unsupported",
-        "status": "insufficient_evidence",
-        "topIds": [],
-        "hitAt3": false,
-        "precisionAt3": null,
-        "abstainOk": true
+        "id": "playwright-browser",
+        "status": "ok",
+        "topIds": [
+          "browser-verification"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
       },
       {
         "id": "vague-help",
@@ -444,21 +701,232 @@
         "hitAt3": true,
         "precisionAt3": 1,
         "abstainOk": null
+      },
+      {
+        "id": "smallest-change-yagni",
+        "status": "ok",
+        "topIds": [
+          "smallest-change"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "context7-docs",
+        "status": "ok",
+        "topIds": [
+          "current-library-docs"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "repo-map",
+        "status": "ok",
+        "topIds": [
+          "repo-orientation"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "ui-review",
+        "status": "ok",
+        "topIds": [
+          "interface-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "find-skill",
+        "status": "ok",
+        "topIds": [
+          "database-migrations",
+          "find-catalog-skill"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "skill-draft",
+        "status": "ok",
+        "topIds": [
+          "session-skill-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "defensive-boundary",
+        "status": "ok",
+        "topIds": [
+          "defensive-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "availability-mismatch",
+        "status": "ok",
+        "topIds": [
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "spring-mvc",
+        "status": "ok",
+        "topIds": [
+          "java-spring-boot"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "fastify-module",
+        "status": "ok",
+        "topIds": [
+          "nodejs-architecture"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "alter-table",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "input-sanitization",
+        "status": "ok",
+        "topIds": [
+          "defensive-review",
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "write-a-test",
+        "status": "ok",
+        "topIds": [
+          "regression-testing"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "trace-call-path",
+        "status": "ok",
+        "topIds": [
+          "repo-orientation",
+          "hotel-booking-debugger"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "understand-service",
+        "status": "ok",
+        "topIds": [
+          "repo-orientation"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "repo-negative-edit",
+        "status": "insufficient_evidence",
+        "topIds": [],
+        "hitAt3": false,
+        "precisionAt3": null,
+        "abstainOk": true
+      },
+      {
+        "id": "wcag-audit",
+        "status": "ok",
+        "topIds": [
+          "interface-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "design-system-review",
+        "status": "ok",
+        "topIds": [
+          "interface-review"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "interface-negative",
+        "status": "ok",
+        "topIds": [
+          "database-migrations"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "minimal-diff",
+        "status": "ok",
+        "topIds": [
+          "smallest-change"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
+      },
+      {
+        "id": "ponytail-scope",
+        "status": "ok",
+        "topIds": [
+          "smallest-change"
+        ],
+        "hitAt3": true,
+        "precisionAt3": 1,
+        "abstainOk": null
       }
     ]
   },
   "exitGate": {
-    "hitAt3Improved": false,
+    "hitAt3Improved": true,
     "precisionAt3Improved": true,
     "abstainImproved": true,
     "improvedOverBaseline": true,
     "noFabrication": true,
     "passSelfCheck": true,
-    "baselineHitAt3": 1,
+    "baselineHitAt3": 0.8888888888888888,
     "recommendHitAt3": 1,
-    "baselinePrecisionAt3": 0.8333333333333333,
-    "recommendPrecisionAt3": 0.9666666666666667,
-    "baselineAbstainAccuracy": 0.8571428571428571,
+    "baselinePrecisionAt3": 0.518018018018018,
+    "recommendPrecisionAt3": 1,
+    "baselineAbstainAccuracy": 0.7142857142857143,
     "recommendAbstainAccuracy": 1
   }
 }

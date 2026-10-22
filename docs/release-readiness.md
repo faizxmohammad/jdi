@@ -50,7 +50,7 @@ Follow `docs/client-compatibility.md` on clean machines. Keep matrix **Unverifie
 ### 5. Public repository / tag (human)
 
 Public repo: https://github.com/faizxmohammad/jdi — clone URL and `sourceUrl` updated.  
-Still open: first release tag (`v0.1.0`) when ready (`docs/release-checklist.md`). CI must be green on Node 24 (FTS5).
+Remote CI on Node 24 is **green**. Still open: first release tag (`v0.1.0`) when ready (`docs/release-checklist.md`); Claude Code / Cursor clean-machine UI remains **Unverified**.
 
 ### 6. CI expansion (optional later)
 

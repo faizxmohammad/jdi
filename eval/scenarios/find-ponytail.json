@@ -1,0 +1,71 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "find-ponytail",
+  "skillId": "find-catalog-skill",
+  "title": "Catalog before external install",
+  "task": "Find a skill for ponytail before you install a skill from outside this catalog.",
+  "contextNote": "Search this catalog first. Do not clone or install an external package.",
+  "fixtureFiles": {},
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill"
+    ],
+    "mustCite": [
+      "smallest-change"
+    ],
+    "citeFromTools": [
+      "recommend_skills"
+    ],
+    "deliverableIncludes": [
+      "smallest-change"
+    ],
+    "prohibited": [
+      "npx skills",
+      "git clone"
+    ],
+    "recommendIncludes": [
+      "find-catalog-skill",
+      "smallest-change"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task",
+            "limit": 5
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "find-catalog-skill"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "recommend_skills already lists smallest-change for this ponytail request. Stay in this catalog."
+    }
+  ]
+}

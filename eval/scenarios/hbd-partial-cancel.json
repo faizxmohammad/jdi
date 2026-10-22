@@ -1,0 +1,89 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "hbd-partial-cancel",
+  "skillId": "hotel-booking-debugger",
+  "title": "Partial cancellation with disagreeing rows",
+  "task": "A hotel booking looks wrong after a partial room cancellation. Diagnose it from the evidence file. Do not apply a production change.",
+  "contextNote": "Read fixtures/booking-evidence.json before naming a cause. Cite only rows and log fields that are in that file. More than one cause can fit the same rows.",
+  "fixtureFiles": {
+    "fixtures/booking-evidence.json": "{\n  \"trace\": \"trace-hbd-1\",\n  \"booking\": {\n    \"id\": \"bk-100\",\n    \"status\": \"confirmed\"\n  },\n  \"room\": {\n    \"id\": \"rm-9\",\n    \"booking_id\": \"bk-100\",\n    \"status\": \"cancelled\"\n  },\n  \"vendorCancellation\": {\n    \"httpStatus\": 200\n  }\n}"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "bk-100",
+      "rm-9",
+      "trace-hbd-1",
+      "confirmed",
+      "cancelled"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "regression"
+    ],
+    "unsupportedClaims": [
+      {
+        "phrase": "tests passed",
+        "requiresTool": "run_command"
+      }
+    ],
+    "recommendIncludes": [
+      "hotel-booking-debugger"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task",
+            "limit": 5
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "hotel-booking-debugger"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/booking-evidence.json"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "Stage: reservation record. Evidence: booking bk-100 status: \"confirmed\"; room rm-9 status: \"cancelled\"; trace-hbd-1 shows vendor HTTP 200. The rows disagree. One supported reading is that the room write landed and the booking row did not. Another supported reading is that a later writer restored the booking row. I am not applying a fix. A regression test should create these two rows, apply the room cancellation, and assert the booking row changes. I did not run that test."
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "browser-missing",
+  "skillId": "browser-verification",
+  "title": "Browser CLI absent",
+  "task": "Run an end-to-end browser check of the login redirect.",
+  "contextNote": "Follow the loaded skill. This environment has not shown a browser CLI. Do not claim the login flow succeeded.",
+  "fixtureFiles": {},
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill"
+    ],
+    "mustCite": [
+      "playwright-cli"
+    ],
+    "citeFromTools": [
+      "get_skill"
+    ],
+    "deliverableIncludes": [
+      "not available"
+    ],
+    "prohibited": [
+      "flow passed"
+    ],
+    "recommendIncludes": [
+      "browser-verification"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "browser-verification"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "Browser verification is blocked because playwright-cli is not available in this environment. I did not run a browser."
+    }
+  ]
+}

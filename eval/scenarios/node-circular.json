@@ -1,0 +1,79 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "node-circular",
+  "skillId": "nodejs-architecture",
+  "title": "Circular service imports",
+  "task": "Refactor a Node.js module boundary. Read the fixture before editing.",
+  "contextNote": "Read fixtures/services.txt.",
+  "fixtureFiles": {
+    "fixtures/services.txt": "// src/services/payment.ts\nimport { log } from \"./logger.js\"\n// src/services/logger.ts\nimport { formatPaymentError } from \"./payment.js\"\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "formatPaymentError",
+      "logger.ts"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "circular"
+    ],
+    "recommendIncludes": [
+      "nodejs-architecture"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "nodejs-architecture"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/services.txt"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "logger.ts imports formatPaymentError from payment.ts, and payment.ts imports logger.ts. That is a circular module boundary. Extract the shared error type before moving files."
+    }
+  ]
+}

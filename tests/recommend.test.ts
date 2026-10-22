@@ -38,6 +38,9 @@ const localManifest = parseSourceManifest({
 const summary = (partial: Partial<SkillSummary> & Pick<SkillSummary, "id" | "name" | "description">): SkillSummary => ({
   entryType: "instruction_skill",
   tags: [],
+  triggers: [],
+  requires: [],
+  provides: [],
   version: "0.1.0",
   validationStatus: "validated",
   provenance: { sourceId: "just-do-it-local", license: "MIT" },

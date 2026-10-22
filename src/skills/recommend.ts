@@ -106,36 +106,73 @@ const STOPWORDS = new Set([
   "fix",
   "update",
   "change",
+  // Conjunctions and prepositions that carry no semantic skill-selection signal
+  "if",
+  "then",
+  "else",
+  "before",
+  "after",
+  "so",
+  "but",
+  "not",
+  "has",
+  "have",
+  "had",
+  "just",
+  "than",
+  "been",
 ])
 
 /**
- * Inspectable synonym → skill-id or token boosts tied to the seed catalog.
- * Keep small; expand only when eval cases demand it.
+ * Legacy token boosts for the original seed skills.
+ * New skills must declare `triggers` in frontmatter. Do not grow this map.
+ *
+ * Rule: entries must expand to DESCRIPTIVE TOKENS only (tags, description terms).
+ * Do not include skill IDs as expansion targets — that causes full-id matching
+ * via `skill.id === token` for any task containing the source word, even in unrelated context.
+ * Do not include words that are ambiguous across domains (e.g. "checkout" means both
+ * hotel-checkout and UI-checkout).
  */
 const SYNONYM_TO_TOKENS: Readonly<Record<string, readonly string[]>> = {
-  spring: ["java", "spring-boot", "java-spring-boot"],
-  springboot: ["java", "spring-boot", "java-spring-boot"],
-  flyway: ["database", "migrations", "sql", "database-migrations"],
-  liquibase: ["database", "migrations", "sql", "database-migrations"],
+  spring: ["java", "spring-boot"],
+  springboot: ["java", "spring-boot"],
+  flyway: ["database", "migrations", "sql"],
+  liquibase: ["database", "migrations", "sql"],
   schema: ["database", "migrations", "sql"],
-  migration: ["database", "migrations", "sql", "database-migrations"],
-  migrations: ["database", "migrations", "sql", "database-migrations"],
-  node: ["nodejs", "typescript", "nodejs-architecture"],
-  nodejs: ["nodejs", "typescript", "nodejs-architecture"],
-  typescript: ["nodejs", "typescript", "nodejs-architecture"],
+  migration: ["database", "migrations", "sql"],
+  migrations: ["database", "migrations", "sql"],
+  node: ["nodejs", "typescript"],
+  nodejs: ["nodejs", "typescript"],
+  typescript: ["nodejs", "typescript"],
   express: ["nodejs", "typescript", "architecture"],
-  flaky: ["testing", "regression", "qa", "regression-testing"],
-  regression: ["testing", "regression", "qa", "regression-testing"],
+  flaky: ["testing", "regression", "qa"],
+  regression: ["testing", "regression", "qa"],
   // Intentionally omit generic "test"/"tests" — too broad (false positives on unrelated tooling requests).
   qa: ["testing", "regression", "qa"],
-  hotel: ["debugging", "booking", "hospitality", "hotel-booking-debugger"],
-  booking: ["debugging", "booking", "hospitality", "hotel-booking-debugger"],
-  hospitality: ["debugging", "booking", "hospitality", "hotel-booking-debugger"],
-  checkout: ["debugging", "booking", "payment", "hotel-booking-debugger"],
+  hotel: ["debugging", "booking", "hospitality"],
+  booking: ["debugging", "booking", "hospitality"],
+  hospitality: ["debugging", "booking", "hospitality"],
   payment: ["debugging", "booking", "payment"],
-  java: ["java", "spring-boot", "backend"],
+  java: ["java", "spring-boot"],
   sql: ["database", "migrations", "sql"],
 }
+
+/** Id tokens that match too many unrelated tasks. Tags and declared triggers still count. */
+const GENERIC_ID_TOKENS = new Set([
+  "api",
+  "change",
+  "code",
+  "data",
+  "docs",
+  "flow",
+  "page",
+  "review",
+  "service",
+  "skill",
+  "test",
+  "tests",
+  "user",
+])
 
 const DEFAULT_LIMIT = 5
 const DEFAULT_MIN_SCORE = 8
@@ -219,6 +256,7 @@ const scoreWeighted = (
   skill: SkillSummary,
   queryTokens: readonly string[],
   expandedTokens: readonly string[],
+  taskText: string,
 ): ScoreBreakdown => {
   const evidence: RecommendationEvidence[] = []
   let score = 0
@@ -229,7 +267,10 @@ const scoreWeighted = (
   const descriptionTokens = new Set(tokenize(skill.description))
 
   for (const token of expandedTokens) {
-    if (idTokens.has(token) || skill.id.toLocaleLowerCase("en-US") === token) {
+    if (
+      !GENERIC_ID_TOKENS.has(token) &&
+      (idTokens.has(token) || skill.id.toLocaleLowerCase("en-US") === token)
+    ) {
       score += 10
       evidence.push({
         kind: "inferred",
@@ -245,7 +286,7 @@ const scoreWeighted = (
         detail: `Matched tag "${token}"`,
       })
     }
-    if (category && (category === token || category.includes(token))) {
+    if (category && category === token) {
       score += 5
       evidence.push({
         kind: "inferred",
@@ -268,6 +309,19 @@ const scoreWeighted = (
     if (tagSet.has(token) || idTokens.has(token) || descriptionTokens.has(token)) {
       score += 1
     }
+  }
+
+  const normalizedTask = taskText.toLocaleLowerCase("en-US")
+  for (const phrase of skill.triggers ?? []) {
+    const needle = phrase.trim().toLocaleLowerCase("en-US")
+    if (needle.length < 2) continue
+    if (!normalizedTask.includes(needle)) continue
+    score += 20
+    evidence.push({
+      kind: "inferred",
+      factor: "trigger_phrase",
+      detail: `Task contains declared trigger "${phrase}"`,
+    })
   }
 
   if (skill.validationStatus === "validated") {
@@ -300,6 +354,23 @@ const scoreWeighted = (
 }
 
 const prerequisitesFor = (skill: SkillSummary): RecommendationPrerequisite[] => {
+  const declared: RecommendationPrerequisite[] = (skill.requires ?? []).map((name) => ({
+    name,
+    status: "unknown",
+    detail:
+      "Declared in skill frontmatter. Just Do It does not prove this dependency is installed or reachable.",
+  }))
+
+  const structural = structuralPrerequisites(skill)
+  const seen = new Set<string>()
+  return [...declared, ...structural].filter((item) => {
+    if (seen.has(item.name)) return false
+    seen.add(item.name)
+    return true
+  })
+}
+
+const structuralPrerequisites = (skill: SkillSummary): RecommendationPrerequisite[] => {
   switch (skill.entryType) {
     case "instruction_skill":
     case "reference_collection":
@@ -418,7 +489,7 @@ export const recommendSkills = (
     const breakdown =
       rankingMode === BASELINE_RANKING
         ? scoreBaseline(skill, queryTokens)
-        : scoreWeighted(skill, queryTokens, expandedTokens)
+        : scoreWeighted(skill, queryTokens, expandedTokens, combined)
 
     if (breakdown.score < minScore) continue
 

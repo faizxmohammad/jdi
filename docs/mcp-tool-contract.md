@@ -2,7 +2,7 @@
 
 **Source of truth:** registered tools in `src/mcp/server.ts`  
 **Product name:** Just Do It (`package.json` name: `just-do-it`)  
-**Last reconciled:** 2026-10-19
+**Last reconciled:** 2026-10-21
 
 All docs, demos, and examples must use these names. Do not use legacy aliases (`skills_hub_version`, Skills Hub, etc.).
 
@@ -22,6 +22,10 @@ All docs, demos, and examples must use these names. Do not use legacy aliases (`
 | `search_skills` | `catalog:read` | Search catalog summaries |
 | `get_skill` | `catalog:read` | Fetch full `SKILL.md` + digest |
 | `recommend_skills` | `catalog:read` | Rank skills for a task string |
+| `plan_capabilities` | `catalog:read` | Order skill loads, context budget, and required tools |
+| `list_external_capabilities` | `catalog:read` | Documented external MCP/CLI metadata; no secrets |
+| `call_external_capability` | `catalog:read` | Allowlisted Context7 call, or a disabled payload with the MCP URL |
+| `draft_skill_candidate` | `catalog:read` | Return a SKILL.md draft; does not write the catalog |
 | `just_do_it_version` | (any authenticated) | Server / catalog / capability metadata |
 | `save_project_context` | `memory:write` | Save a memory record |
 | `get_project_context` | `memory:read` | Retrieve project memory for a task |

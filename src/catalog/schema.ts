@@ -38,6 +38,14 @@ export const skillSummarySchema = z.object({
   description: z.string().min(1).max(2000),
   entryType: catalogEntryTypeSchema.default("instruction_skill"),
   tags: z.array(z.string().min(1).max(40)).max(30).default([]),
+  /** Declared phrases that select this skill. Matching is exact substring, not a global synonym table. */
+  triggers: z.array(z.string().min(1).max(80)).max(20).default([]),
+  /** Capability ids this skill expects (external MCP, CLI, or another catalog capability). */
+  requires: z.array(z.string().min(1).max(80)).max(20).default([]),
+  /** Capability ids this skill contributes to a workflow. */
+  provides: z.array(z.string().min(1).max(80)).max(20).default([]),
+  /** What a successful run should hand back to the agent. */
+  outputs: z.string().min(1).max(300).optional(),
   category: z.string().min(1).max(80).optional(),
   version: z.string().min(1).max(80).default("unversioned"),
   validationStatus: validationStatusSchema.default("unvalidated"),

@@ -1,0 +1,79 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "java-endpoint",
+  "skillId": "java-spring-boot",
+  "title": "Admin endpoint beside existing security",
+  "task": "Add a Spring Boot admin endpoint for rates. Read the existing security fixture first.",
+  "contextNote": "Read fixtures/SecurityConfig.java. Follow the annotation style already in the file.",
+  "fixtureFiles": {
+    "fixtures/SecurityConfig.java": "<!-- spring-boot 3.2 -->\n@PreAuthorize(\"hasRole('ADMIN')\")\npublic class SecurityConfig {}\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "@PreAuthorize",
+      "3.2"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "PreAuthorize"
+    ],
+    "recommendIncludes": [
+      "java-spring-boot"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "java-spring-boot"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/SecurityConfig.java"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "The fixture is Spring Boot 3.2 and already uses @PreAuthorize. Extend that config for the rates endpoint with PreAuthorize for ADMIN and a WebMvc test. I did not start the application."
+    }
+  ]
+}

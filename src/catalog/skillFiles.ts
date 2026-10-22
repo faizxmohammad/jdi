@@ -21,6 +21,10 @@ export interface ParsedSkillFile {
   description: string
   entryType: CatalogEntryType
   tags: string[]
+  triggers: string[]
+  requires: string[]
+  provides: string[]
+  outputs?: string
   category?: string
   version: string
   validationStatus: ValidationStatus
@@ -118,6 +122,7 @@ export const readSkillFile = async (
   }
 
   const category = frontmatterString(data, "category")
+  const outputs = frontmatterString(data, "outputs")
   const version =
     frontmatterString(data, "version") ?? options.catalogVersion ?? "unversioned"
   const sourceId = frontmatterString(data, "sourceId")
@@ -150,6 +155,10 @@ export const readSkillFile = async (
       description: description!,
       entryType: entryParsed.success ? entryParsed.data : "instruction_skill",
       tags: frontmatterList(data, "tags"),
+      triggers: frontmatterList(data, "triggers"),
+      requires: frontmatterList(data, "requires"),
+      provides: frontmatterList(data, "provides"),
+      ...(outputs ? { outputs } : {}),
       ...(category ? { category } : {}),
       version,
       validationStatus: validationParsed.success ? validationParsed.data : "unvalidated",

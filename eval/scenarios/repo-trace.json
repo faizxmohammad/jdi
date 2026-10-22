@@ -1,0 +1,79 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "repo-trace",
+  "skillId": "repo-orientation",
+  "title": "Trace reservation entry",
+  "task": "Trace the call path for reservations using the fixture, and cite the files you actually read.",
+  "contextNote": "Read fixtures/entry.txt. Mark claims you read.",
+  "fixtureFiles": {
+    "fixtures/entry.txt": "// src/index.ts\napp.use(\"/reservations\", reservationsRouter)\n// src/routes/reservations.ts\nexport function createReservation() { return repo.insertReservation() }\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "src/index.ts",
+      "createReservation"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "insertReservation"
+    ],
+    "recommendIncludes": [
+      "repo-orientation"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "repo-orientation"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/entry.txt"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "READ: src/index.ts mounts reservations. READ: createReservation calls insertReservation. I did not edit the files."
+    }
+  ]
+}

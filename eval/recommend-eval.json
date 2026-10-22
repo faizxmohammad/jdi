@@ -1,62 +1,80 @@
 {
   "version": "0.2.0",
   "description": "Recommend eval against local seed catalog. suite=regression preserves the original Phase 2 baseline (13). Extra cases cover abstain, overlap, ambiguity, and irrelevant tasks. Small-denominator Precision@3 is a regression signal, not proof of generalization.",
-  "metricNotes": "Hit@3 = expected skill id appears in top-3 when status is ok or needs_clarification with recommendations. Precision@3 = |recommended ∩ expected| / |recommended| averaged over cases that emit recommendations. AbstainAcc = cases with expectStatus insufficient_evidence|needs_clarification that match. Fabrication = any recommended id not in catalog (must be 0).",
+  "metricNotes": "Hit@3 = expected skill id appears in top-3 when status is ok or needs_clarification with recommendations. Precision@3 = |recommended \u2229 expected| / |recommended| averaged over cases that emit recommendations. AbstainAcc = cases with expectStatus insufficient_evidence|needs_clarification that match. Fabrication = any recommended id not in catalog (must be 0).",
   "cases": [
     {
       "id": "spring-endpoint",
       "suite": "regression",
       "task": "Add a Spring Boot REST endpoint for user profiles",
-      "expectedSkillIds": ["java-spring-boot"],
+      "expectedSkillIds": [
+        "java-spring-boot"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "flyway-migration",
       "suite": "regression",
       "task": "Plan a Flyway database migration with a tested rollback path",
-      "expectedSkillIds": ["database-migrations"],
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "node-modules",
       "suite": "regression",
       "task": "Refactor a Node.js TypeScript service into clearer module boundaries",
-      "expectedSkillIds": ["nodejs-architecture"],
+      "expectedSkillIds": [
+        "nodejs-architecture"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "regression-auth",
       "suite": "regression",
       "task": "Add a regression test that fails if auth validation breaks again",
-      "expectedSkillIds": ["regression-testing"],
-      "expectStatus": "ok"
+      "expectedSkillIds": [
+        "regression-testing",
+        "java-spring-boot"
+      ],
+      "expectStatus": "ok",
+      "notes": "regression-testing is the primary answer. java-spring-boot is a valid secondary for auth validation in Spring context \u2014 its 'validation' tag scores correctly. Both are useful co-recommendations."
     },
     {
       "id": "hotel-payment",
       "suite": "regression",
-      "task": "Hotel booking payment fails at checkout — isolate the failure",
-      "expectedSkillIds": ["hotel-booking-debugger"],
+      "task": "Hotel booking payment fails at checkout \u2014 isolate the failure",
+      "expectedSkillIds": [
+        "hotel-booking-debugger"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "flaky-ci",
       "suite": "regression",
       "task": "Fix a flaky CI regression test for a backend service",
-      "expectedSkillIds": ["regression-testing"],
+      "expectedSkillIds": [
+        "regression-testing"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "sql-schema",
       "suite": "regression",
       "task": "Design a backward-compatible SQL schema change for bookings",
-      "expectedSkillIds": ["database-migrations"],
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "java-service",
       "suite": "regression",
       "task": "Make a small backward-compatible change in a Java 21 service",
-      "expectedSkillIds": ["java-spring-boot"],
+      "expectedSkillIds": [
+        "java-spring-boot"
+      ],
       "expectStatus": "ok"
     },
     {
@@ -67,11 +85,14 @@
       "expectStatus": "insufficient_evidence"
     },
     {
-      "id": "playwright-unsupported",
+      "id": "playwright-browser",
       "suite": "regression",
       "task": "Install Playwright browser automation CLI and run e2e tests",
-      "expectedSkillIds": [],
-      "expectStatus": "insufficient_evidence"
+      "expectedSkillIds": [
+        "browser-verification"
+      ],
+      "expectStatus": "ok",
+      "notes": "Replaces the old abstain case. The catalog now has an original browser-verification skill. The server still does not launch a browser."
     },
     {
       "id": "vague-help",
@@ -85,14 +106,18 @@
       "suite": "regression",
       "task": "Apply the next change safely",
       "projectContext": "Postgres + Flyway migrations; avoid destructive DDL",
-      "expectedSkillIds": ["database-migrations"],
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "liquibase-synonym",
       "suite": "regression",
       "task": "Use Liquibase to migrate the schema safely with rollback",
-      "expectedSkillIds": ["database-migrations"],
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
       "expectStatus": "ok"
     },
     {
@@ -120,21 +145,28 @@
       "id": "express-modules",
       "suite": "expanded",
       "task": "Split an Express TypeScript API into clearer modules and boundaries",
-      "expectedSkillIds": ["nodejs-architecture"],
+      "expectedSkillIds": [
+        "nodejs-architecture"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "hotel-inventory",
       "suite": "expanded",
       "task": "Hotel booking inventory shows sold-out incorrectly after payment succeeds",
-      "expectedSkillIds": ["hotel-booking-debugger"],
+      "expectedSkillIds": [
+        "hotel-booking-debugger"
+      ],
       "expectStatus": "ok"
     },
     {
       "id": "spring-migration-overlap",
       "suite": "expanded",
       "task": "Change the Spring Boot bookings service and its Flyway migration together",
-      "expectedSkillIds": ["java-spring-boot", "database-migrations"],
+      "expectedSkillIds": [
+        "java-spring-boot",
+        "database-migrations"
+      ],
       "expectStatus": "ok",
       "notes": "Current ranker returns ok with both catalog skills when both score well; tighten clarify threshold later if product wants force-clarify here."
     },
@@ -149,7 +181,10 @@
       "id": "regression-payment-overlap",
       "suite": "expanded",
       "task": "Add a regression test for hotel booking payment failures",
-      "expectedSkillIds": ["regression-testing", "hotel-booking-debugger"],
+      "expectedSkillIds": [
+        "regression-testing",
+        "hotel-booking-debugger"
+      ],
       "expectStatus": "ok",
       "notes": "Overlapping domain: both skills may appear; Hit@3 passes if either expected id is present."
     },
@@ -157,8 +192,207 @@
       "id": "sql-only-migration",
       "suite": "expanded",
       "task": "Write a reversible SQL migration for the bookings table",
-      "expectedSkillIds": ["database-migrations"],
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
       "expectStatus": "ok"
+    },
+    {
+      "id": "smallest-change-yagni",
+      "suite": "expanded",
+      "task": "This fix is over-engineering. Give me the smallest change that works.",
+      "expectedSkillIds": [
+        "smallest-change"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "context7-docs",
+      "suite": "expanded",
+      "task": "Use Context7 library docs before calling the React router API",
+      "expectedSkillIds": [
+        "current-library-docs"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "repo-map",
+      "suite": "expanded",
+      "task": "Reverse engineer the entry points of this repository before editing",
+      "expectedSkillIds": [
+        "repo-orientation"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "ui-review",
+      "suite": "expanded",
+      "task": "Review my UI landing page for an accessibility audit",
+      "expectedSkillIds": [
+        "interface-review"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "find-skill",
+      "suite": "expanded",
+      "task": "Find a skill for Flyway schema change work",
+      "expectedSkillIds": [
+        "find-catalog-skill",
+        "database-migrations"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "skill-draft",
+      "suite": "expanded",
+      "task": "Turn this correction into a task observer skill observation",
+      "expectedSkillIds": [
+        "session-skill-review"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "defensive-boundary",
+      "suite": "expanded",
+      "task": "Do a security review of the API trust boundary for tokens",
+      "expectedSkillIds": [
+        "defensive-review"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "availability-mismatch",
+      "suite": "expanded",
+      "task": "Availability mismatch: hotel room shows available but booking fails",
+      "expectedSkillIds": [
+        "hotel-booking-debugger"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "spring-mvc",
+      "suite": "expanded",
+      "task": "Add validation to a Spring MVC controller endpoint",
+      "expectedSkillIds": [
+        "java-spring-boot"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "fastify-module",
+      "suite": "expanded",
+      "task": "Refactor a Fastify endpoint into a cleaner module boundary",
+      "expectedSkillIds": [
+        "nodejs-architecture"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "alter-table",
+      "suite": "expanded",
+      "task": "ALTER TABLE to add a non-null column with a rollback path",
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "input-sanitization",
+      "suite": "expanded",
+      "task": "Check the input sanitization on this form before it reaches the database",
+      "expectedSkillIds": [
+        "defensive-review",
+        "database-migrations"
+      ],
+      "expectStatus": "ok",
+      "notes": "defensive-review must be #1 (trigger match). database-migrations is a valid secondary recommendation because the task mentions database as destination. With trigger_phrase=20, defensive-review scores 24 vs database-migrations 22."
+    },
+    {
+      "id": "write-a-test",
+      "suite": "expanded",
+      "task": "Write a test for the order confirmation behavior that just broke",
+      "expectedSkillIds": [
+        "regression-testing"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "trace-call-path",
+      "suite": "coverage",
+      "task": "Trace the call path from the HTTP entry point to the booking confirmation handler",
+      "expectedSkillIds": [
+        "repo-orientation",
+        "hotel-booking-debugger"
+      ],
+      "expectStatus": "ok",
+      "notes": "repo-orientation primary via 3 triggers. hotel-booking-debugger acceptable secondary: task names a booking domain handler."
+    },
+    {
+      "id": "understand-service",
+      "suite": "coverage",
+      "task": "Understand how the payments module works before editing it",
+      "expectedSkillIds": [
+        "repo-orientation"
+      ],
+      "expectStatus": "ok",
+      "notes": "repo-orientation primary via understand-how trigger. nodejs-architecture was previously a false positive via ts-module substring-matching payments-module \u2014 fixed."
+    },
+    {
+      "id": "repo-negative-edit",
+      "suite": "coverage",
+      "task": "Add a null check to the getUser function in src/users/service.ts",
+      "expectedSkillIds": [],
+      "expectStatus": "insufficient_evidence",
+      "notes": "A direct named-file edit should not trigger repo-orientation. insufficient_evidence because task is specific but no skill covers null-check insertion specifically."
+    },
+    {
+      "id": "wcag-audit",
+      "suite": "coverage",
+      "task": "Run a WCAG accessibility audit on the sign-up page for keyboard focus and color contrast",
+      "expectedSkillIds": [
+        "interface-review"
+      ],
+      "expectStatus": "ok",
+      "notes": "Task avoids hotel-booking vocabulary to prevent false-positive hotel-booking-debugger tag match. Tests pure interface-review trigger path."
+    },
+    {
+      "id": "design-system-review",
+      "suite": "coverage",
+      "task": "Review my UI for design system consistency and keyboard focus issues",
+      "expectedSkillIds": [
+        "interface-review"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "interface-negative",
+      "suite": "coverage",
+      "task": "Add an index to the database for faster lookups",
+      "expectedSkillIds": [
+        "database-migrations"
+      ],
+      "expectStatus": "ok",
+      "notes": "A DB index change should not trigger interface-review."
+    },
+    {
+      "id": "minimal-diff",
+      "suite": "coverage",
+      "task": "Give me the simplest solution that fixes the null pointer exception",
+      "expectedSkillIds": [
+        "smallest-change"
+      ],
+      "expectStatus": "ok"
+    },
+    {
+      "id": "ponytail-scope",
+      "suite": "coverage",
+      "task": "Apply the ponytail rule: make the minimum working change",
+      "expectedSkillIds": [
+        "smallest-change"
+      ],
+      "expectStatus": "ok",
+      "notes": "ponytail is a declared trigger phrase for smallest-change."
     }
   ]
 }

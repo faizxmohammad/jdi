@@ -1,0 +1,59 @@
+{
+  "version": "1",
+  "capabilities": [
+    {
+      "id": "context7",
+      "kind": "external_mcp",
+      "title": "Context7 library documentation",
+      "sourceUrl": "https://github.com/upstash/context7",
+      "license": "MIT",
+      "integration": "documented_http_interface",
+      "redistribution": "do_not_vendor",
+      "endpoint": "https://mcp.context7.com/mcp",
+      "defaultApiBase": "https://context7.com/api",
+      "apiBaseEnv": "JUST_DO_IT_CONTEXT7_API_BASE",
+      "authEnv": "CONTEXT7_API_KEY",
+      "authRequired": false,
+      "triggers": ["context7", "library docs", "api documentation"],
+      "tools": [
+        {
+          "name": "resolve-library-id",
+          "description": "Resolve a library name to a Context7-compatible library id. Same operation as the Context7 MCP tool.",
+          "input": {
+            "query": "string, required. The user question, used to rank matches.",
+            "libraryName": "string, required. Library name such as react or next.js."
+          }
+        },
+        {
+          "name": "query-docs",
+          "description": "Fetch documentation for one library id and one question. Same operation as the Context7 MCP tool.",
+          "input": {
+            "libraryId": "string, required. Context7 id such as /vercel/next.js.",
+            "query": "string, required. One topic, not a bundle of topics.",
+            "language": "string, optional. Prefer examples in this language."
+          }
+        }
+      ]
+    },
+    {
+      "id": "playwright-cli",
+      "kind": "cli_integration",
+      "title": "Playwright CLI",
+      "sourceUrl": "https://github.com/microsoft/playwright-cli",
+      "license": "Apache-2.0",
+      "integration": "user_environment",
+      "redistribution": "do_not_vendor",
+      "installHint": "npm install -g @playwright/cli@latest — Just Do It does not run the browser.",
+      "triggers": ["playwright", "browser automation"],
+      "tools": [
+        {
+          "name": "playwright-cli",
+          "description": "User-local CLI. Read playwright-cli --help in that environment. This server does not spawn it.",
+          "input": {
+            "command": "string. Subcommand from playwright-cli --help."
+          }
+        }
+      ]
+    }
+  ]
+}

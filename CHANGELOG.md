@@ -9,6 +9,11 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Added
 
+- Capability planning: `plan_capabilities` selects skills, applies a skill-body byte budget, and names required tools
+- External capability registry for Context7 (documented HTTP API, proxy off by default) and Playwright CLI (user environment only)
+- `list_external_capabilities`, `call_external_capability`, `draft_skill_candidate`
+- First-party skills for small diffs, library docs, repository orientation, interface review, browser checks, catalog search, skill drafts, and defensive review
+- Skill frontmatter `triggers`, `requires`, `provides`, and `outputs` so new skills do not need a synonym-map edit
 - Team foundation: file-backed orgs (`JUST_DO_IT_ORGS_PATH`), optional credential `orgId` / `scopes`, per-org private catalog path, governance hooks on `just_do_it_version`
 - Docs: `docs/team-model.md`
 - Examples: `examples/orgs.json`, `examples/api-tokens-team.json`

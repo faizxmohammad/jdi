@@ -19,7 +19,7 @@ Last updated: 2026-10-19.
 
 ## Catalog
 
-- Catalog source of truth is `skills/` with provenance `just-do-it-local`.
+- Catalog source of truth is `skills/` with provenance `just-do-it-local` (13 skills). Context7 proxy is off unless `JUST_DO_IT_EXTERNAL_CALLS=enabled`. Live Context7 was not part of the test run.
 - Frontmatter must declare `sourceId` explicitly.
 - Summary index is in-process; restart after on-disk catalog changes (or invalidate index).
 - `just-do-it-local` `sourceUrl` is a placeholder until the public repo URL is set.

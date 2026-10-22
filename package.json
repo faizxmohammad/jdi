@@ -13,7 +13,8 @@
     "test": "vitest run",
     "import-skill": "tsx src/cli/import-skill.ts",
     "just-do-it": "tsx src/cli/just-do-it.ts",
-    "eval:recommend": "JUST_DO_IT_TOKEN=eval-token-xxxxxxxxxxxxxxxxxxxxxxx JUST_DO_IT_OWNER_ID=eval-owner NODE_ENV=test tsx src/cli/eval-recommend.ts"
+    "eval:recommend": "JUST_DO_IT_TOKEN=eval-token-xxxxxxxxxxxxxxxxxxxxxxx JUST_DO_IT_OWNER_ID=eval-owner NODE_ENV=test tsx src/cli/eval-recommend.ts",
+    "eval:skills": "JUST_DO_IT_TOKEN=eval-token-xxxxxxxxxxxxxxxxxxxxxxx JUST_DO_IT_OWNER_ID=eval-owner NODE_ENV=test tsx src/cli/eval-skills.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",

@@ -24,7 +24,7 @@ Outstanding human / release actions (also in `docs/release-checklist.md`, `docs/
 1. First git commit(s) on `main` — **done** (public repo: https://github.com/faizxmohammad/jdi)  
 2. Public repository URL — **done** (`catalog/sources.manifest.json` + README clone URL)  
 3. First tag / GitHub Release (`v0.1.0`) — still open  
-4. Actions green on the published remote — **in progress** (bump CI to Node 24 for FTS5)  
+4. Actions green on the published remote — **done** (Node 24 / FTS5)  
 5. Claude Code / Cursor clean-machine UI verification (**Unverified**)  
 6. Docker UID / persistence / restore — **partially evidenced** on this host (`docs/release-readiness.md`); keep operator `chown` as normal path  
 7. **Accepted CI gap:** lint/format + container image scan not in CI (explicit)  

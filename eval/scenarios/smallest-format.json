@@ -1,0 +1,78 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "smallest-format",
+  "skillId": "smallest-change",
+  "title": "Shared null bug",
+  "task": "This fix is over-engineering. Give me the smallest change that works. Read the fixture.",
+  "contextNote": "Read fixtures/currency.ts.",
+  "fixtureFiles": {
+    "fixtures/currency.ts": "export function formatCurrency(value) { return value.toFixed(2) }\n// callers: checkout.ts, invoice.ts, refund.ts, quote.ts, receipt.ts\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "formatCurrency"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "formatCurrency"
+    ],
+    "recommendIncludes": [
+      "smallest-change"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "smallest-change"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/currency.ts"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "The shared function is formatCurrency. Guard it once. Do not patch every caller. Skipped: a new currency package. I did not run tests."
+    }
+  ]
+}

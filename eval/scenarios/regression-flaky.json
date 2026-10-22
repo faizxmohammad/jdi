@@ -1,0 +1,87 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "regression-flaky",
+  "skillId": "regression-testing",
+  "title": "Flaky expiry test",
+  "task": "The auth expiry test is flaky in CI. Read the test fixture and say how to add a regression test without weakening it.",
+  "contextNote": "Read fixtures/auth.test.ts. Do not claim the suite passed.",
+  "fixtureFiles": {
+    "fixtures/auth.test.ts": "it(\"auth: returns 401 for expired tokens\", () => {\n  const token = sign({ exp: new Date() })\n  expect(authenticate(token).status).toBe(401)\n})\n"
+  },
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "read_fixture"
+    ],
+    "mustCite": [
+      "new Date()"
+    ],
+    "citeFromTools": [
+      "read_fixture"
+    ],
+    "deliverableIncludes": [
+      "timestamp"
+    ],
+    "prohibited": [
+      ".retries("
+    ],
+    "unsupportedClaims": [
+      {
+        "phrase": "tests passed",
+        "requiresTool": "run_command"
+      }
+    ],
+    "recommendIncludes": [
+      "regression-testing"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "regression-testing"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "read_fixture",
+          "args": {
+            "path": "fixtures/auth.test.ts"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "The fixture builds expiry with new Date(), so the clock is not fixed. Expected behavior is 401 for an expired token. Inject a fixed timestamp and keep the 401 assertion. I did not run the suite."
+    }
+  ]
+}

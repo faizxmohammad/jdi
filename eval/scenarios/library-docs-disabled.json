@@ -1,0 +1,82 @@
+{
+  "allowedTools": [
+    "recommend_skills",
+    "search_skills",
+    "plan_capabilities",
+    "get_skill",
+    "read_fixture",
+    "write_artifact",
+    "list_external_capabilities",
+    "call_external_capability",
+    "draft_skill_candidate"
+  ],
+  "maxTurns": 6,
+  "allowLiveExternal": false,
+  "id": "library-docs-disabled",
+  "skillId": "current-library-docs",
+  "title": "Context7 proxy off",
+  "task": "Use current library docs before writing a React Query hook.",
+  "contextNote": "Call the catalog external capability. If the proxy is off, say so and do not invent a hook signature.",
+  "fixtureFiles": {},
+  "acceptance": {
+    "mustCallTools": [
+      "recommend_skills",
+      "get_skill",
+      "call_external_capability"
+    ],
+    "mustCite": [
+      "disabled"
+    ],
+    "citeFromTools": [
+      "call_external_capability"
+    ],
+    "deliverableIncludes": [
+      "mcp.context7.com"
+    ],
+    "prohibited": [
+      "queryKey:"
+    ],
+    "recommendIncludes": [
+      "current-library-docs"
+    ]
+  },
+  "simulatedScript": [
+    {
+      "toolCalls": [
+        {
+          "name": "recommend_skills",
+          "args": {
+            "task": "$task"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "get_skill",
+          "args": {
+            "skillName": "current-library-docs"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [
+        {
+          "name": "call_external_capability",
+          "args": {
+            "capabilityId": "context7",
+            "tool": "resolve-library-id",
+            "query": "query hook",
+            "libraryName": "react-query"
+          }
+        }
+      ]
+    },
+    {
+      "toolCalls": [],
+      "content": "The external call returned status disabled. The proxy is not enabled. The documented endpoint is https://mcp.context7.com/mcp. I did not invent a hook signature."
+    }
+  ]
+}
